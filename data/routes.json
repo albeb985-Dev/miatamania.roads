@@ -1,20 +1,42 @@
 [
   {
-    "id": "anello-catria",
-    "title": "Anello del Monte Catria",
+    "id": "20260607_IlTidone",
+    "title": "Il Tidone",
+    "category": "Raduni",
     "difficulty": "Media",
     "distance_km": 12.4,
     "elevation_gain_m": 720,
     "gpx_file": "gpx/demo-catria.gpx",
-    "description": "Un classico percorso ad anello tra praterie sommitali e vette panoramiche dell'Appennino."
-  },
-  {
-    "id": "sentiero-costiera",
-    "title": "Sentiero Panoramico della Costiera",
-    "difficulty": "Facile",
-    "distance_km": 6.8,
-    "elevation_gain_m": 180,
-    "gpx_file": "gpx/demo-costiera.gpx",
-    "description": "Piacevole passeggiata a picco sul mare adatta a tutti, con splendidi scorci panoramici."
+    "description": "Il giro della valle del tidone",
+    "POI":[
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Start",
+        "order": 0,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "End",
+        "order": 2,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Sosta",
+        "order": 1,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Ristorante",
+        "order": 2,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      }
+    ]
   }
 ]
