@@ -54,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="p-3 bg-light rounded-3 d-flex justify-content-around text-center mb-3 border">
                             <div>
                                 <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i>Stato</small>
-                                <strong class="text-dark">+${route.country}</strong>
+                                <strong class="text-dark">${route.country}</strong>
                             </div>
                             <div class="border-start"></div>
                             <div>
-                                <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i>Stato</small>
-                                <strong class="text-dark">+${route.region}</strong>
+                                <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i>Regione</small>
+                                <strong class="text-dark">${route.region}</strong>
                             </div>
                             <div class="border-start"></div>
                             <div>

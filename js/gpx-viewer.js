@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initRouteDetail(route) {
+        console.log('initroutedetail');
         document.getElementById('routeTitle').innerText = route.title || 'Percorso';
         document.getElementById('routeDescription').innerText = route.description || '';
         
@@ -57,20 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             // Carica il tracciato GPX sulla mappa
-            if (data.gpxFile) {
-            loadGpxTrack(data.gpx_file, map);
-            }
-
-            if (data.pois && Array.isArray(data.pois)) {
-            renderRoutePois(data.pois, map);           
-            }
+            if (data.gpx_file) loadGpxTrack(data,map);
+            if (data.pois && Array.isArray(data.pois)) renderRoutePois(data.pois, map);
         })
         .catch(err => console.error('Errore nel caricamento del file routeinfo:', err));
     }
 
-    function loadGpxTrack(gpxfile,map)
+    function loadGpxTrack(route,map)
     {
-        fetch(gpxfile)
+        fetch(route.gpx_file)
             .then(res => {
                 if (!res.ok) throw new Error(`File GPX non trovato al percorso: ${route.gpx_file}`);
                 return res.text();
@@ -184,52 +180,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Funzione 1: Genera il marker Leaflet personalizzato
-    function createPoiMarker(poi) {
-    let symbol = '📍';
-    let badgeClass = 'poi-waypoint';
+    function createPoiMarker(poi) 
+    {
+        console.log('createPOIMarker');
+        console.log(poi);
+        let symbol = '📍';
+        let badgeClass = 'poi-waypoint';
 
-    if (poi.category === 'Ristorante') {
-        symbol = '🍽️';
-        badgeClass = 'poi-restaurant';
-    } else if (poi.category === 'Sosta') {
-        symbol = poi.order ? poi.order : 'P';
-        badgeClass = 'poi-stop';
-    } else if (poi.category === 'Punto di Passaggio') {
-        symbol = poi.order ? poi.order : '•';
-        badgeClass = 'poi-waypoint';
-    }
+        if (poi.category === 'Ristorante') {
+            symbol = '🍽️';
+            badgeClass = 'poi-restaurant';
+        } else if (poi.category === 'Sosta') {
+            symbol = poi.order ? poi.order : 'P';
+            badgeClass = 'poi-stop';
+        } else if (poi.category === 'Punto di Passaggio') {
+            symbol = poi.order ? poi.order : '•';
+            badgeClass = 'poi-waypoint';
+        }
 
-    const customIcon = L.divIcon({
-        className: `custom-poi-icon ${badgeClass}`,
-        html: `<span>${symbol}</span>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
-    });
+        const customIcon = L.divIcon({
+            className: `custom-poi-icon ${badgeClass}`,
+            html: `<span>${symbol}</span>`,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+        });
 
-    const marker = L.marker([poi.lat, poi.lng], { icon: customIcon });
+        const marker = L.marker([poi.lat, poi.lng], { icon: customIcon });
 
-    const popupContent = `
-        <div class="poi-popup">
-        <span class="poi-badge ${badgeClass}">${poi.category}</span>
-        ${poi.order ? `<span class="poi-order-badge">#${poi.order}</span>` : ''}
-        <h4>${poi.name}</h4>
-        <p>${poi.description || ''}</p>
-        </div>
-    `;
+        const popupContent = `
+            <div class="poi-popup">
+            <span class="poi-badge ${badgeClass}">${poi.category}</span>
+            ${poi.order ? `<span class="poi-order-badge">#${poi.order}</span>` : ''}
+            <h4>${poi.name}</h4>
+            <p>${poi.description || ''}</p>
+            </div>
+        `;
 
-    marker.bindPopup(popupContent);
-    return marker;
+        marker.bindPopup(popupContent);
+        return marker;
     }
 
     // Funzione 2: Ordina i POI, crea i marker e popola la lista HTML
     function renderRoutePois(pois, map) {
     // Ordina Soste e Punti di Passaggio per 'order'
-    const sortedPois = [...pois].sort((a, b) => {
-        if (a.order && b.order) return a.order - b.order;
-        if (a.order) return -1;
-        if (b.order) return 1;
-        return 0;
-    });
+        const sortedPois = [...pois].sort((a, b) => {
+            if (a.order && b.order) return a.order - b.order;
+            if (a.order) return -1;
+            if (b.order) return 1;
+            return 0;
+        });
 
     const poiContainer = document.getElementById('route-poi-list');
     if (poiContainer) poiContainer.innerHTML = '';
