@@ -25,6 +25,11 @@
     color: #664d03 !important;
 }
 
+.badge-poi {
+    background-color: #fff3cd !important;
+    color: #e90000 !important;
+}
+
 /* Z-Index fix per mappa Leaflet */
 #map {
     z-index: 1;
