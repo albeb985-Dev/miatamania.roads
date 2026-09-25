@@ -2,42 +2,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const routeId = params.get('id');
 
+    const loadingEl = document.getElementById('loading');
+
     if (!routeId) {
-        document.getElementById('loading').innerText = 'Nessun percorso specificato.';
+        if (loadingEl) loadingEl.innerHTML = '<div class="alert alert-warning max-w-600 mx-auto">Nessun percorso specificato nell\'URL.</div>';
         return;
     }
 
     fetch('data/routes.json')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Errore nel caricamento del file JSON dei percorsi.");
+            return res.json();
+        })
         .then(routes => {
             const route = routes.find(r => r.id === routeId);
             if (!route) {
-                document.getElementById('loading').innerText = 'Percorso non trovato.';
+                if (loadingEl) loadingEl.innerHTML = '<div class="alert alert-danger max-w-600 mx-auto">Percorso non trovato nel database.</div>';
                 return;
             }
             initRouteDetail(route);
+        })
+        .catch(err => {
+            console.error('Errore:', err);
+            if (loadingEl) loadingEl.innerHTML = `<div class="alert alert-danger max-w-600 mx-auto">${err.message}</div>`;
         });
 
+    function getBadgeClass(diff) {
+        if (!diff) return 'bg-secondary text-white';
+        switch(diff.toLowerCase()) {
+            case 'facile': return 'badge-facile';
+            case 'media': return 'badge-media';
+            case 'difficile': return 'badge-difficile';
+            default: return 'bg-secondary text-white';
+        }
+    }
+
     function initRouteDetail(route) {
-        document.getElementById('routeTitle').innerText = route.title;
-        document.getElementById('routeDescription').innerText = route.description;
+        document.getElementById('routeTitle').innerText = route.title || 'Percorso';
+        document.getElementById('routeDescription').innerText = route.description || '';
+        
         const badge = document.getElementById('routeBadge');
-        badge.innerText = route.difficulty;
-        badge.classList.add(route.difficulty.toLowerCase());
+        badge.innerText = route.difficulty || 'N/D';
+        badge.className = `badge ${getBadgeClass(route.difficulty)} px-3 py-2 rounded-pill fs-6 mb-2`;
 
         document.getElementById('downloadGpxBtn').href = route.gpx_file;
 
+        // Inizializza Mappa Leaflet
         const map = L.map('map').setView([0, 0], 2);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
         fetch(route.gpx_file)
-            .then(res => res.text())
+            .then(res => {
+                if (!res.ok) throw new Error(`File GPX non trovato al percorso: ${route.gpx_file}`);
+                return res.text();
+            })
             .then(xmlString => {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-                const trkpts = xmlDoc.querySelectorAll('trkpt');
+                
+                // Cerca trkpt, rtept o wpt per la massima tolleranza del formato
+                let trkpts = xmlDoc.querySelectorAll('trkpt');
+                if (trkpts.length === 0) trkpts = xmlDoc.querySelectorAll('rtept');
+                if (trkpts.length === 0) trkpts = xmlDoc.querySelectorAll('wpt');
+
+                if (trkpts.length === 0) {
+                    throw new Error("Il file GPX non contiene coordinate valide (<trkpt>, <rtept> o <wpt>).");
+                }
 
                 const points = [];
                 const elevations = [];
@@ -45,12 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 let totalDistance = 0, eleGain = 0, eleLoss = 0;
                 let maxEle = -Infinity, minEle = Infinity;
                 let lastLat = null, lastLon = null, lastEle = null;
+                let hasElevationData = false;
 
                 trkpts.forEach((pt) => {
                     const lat = parseFloat(pt.getAttribute('lat'));
                     const lon = parseFloat(pt.getAttribute('lon'));
+                    
+                    if (isNaN(lat) || isNaN(lon)) return; // Salta eventuali punti non validi
+
                     const eleNode = pt.querySelector('ele');
-                    const ele = eleNode ? parseFloat(eleNode.textContent) : 0;
+                    let ele = null;
+                    if (eleNode && !isNaN(parseFloat(eleNode.textContent))) {
+                        ele = parseFloat(eleNode.textContent);
+                        hasElevationData = true;
+                    }
 
                     points.push([lat, lon]);
 
@@ -58,38 +98,72 @@ document.addEventListener('DOMContentLoaded', () => {
                         const dist = calculateDistance(lastLat, lastLon, lat, lon);
                         totalDistance += dist;
 
-                        const diff = ele - lastEle;
-                        if (diff > 0) eleGain += diff;
-                        else eleLoss += Math.abs(diff);
+                        if (ele !== null && lastEle !== null) {
+                            const diff = ele - lastEle;
+                            if (diff > 0) eleGain += diff;
+                            else eleLoss += Math.abs(diff);
+                        }
                     }
 
-                    if (ele > maxEle) maxEle = ele;
-                    if (ele < minEle) minEle = ele;
+                    if (ele !== null) {
+                        if (ele > maxEle) maxEle = ele;
+                        if (ele < minEle) minEle = ele;
+                    }
 
-                    lastLat = lat; lastLon = lon; lastEle = ele;
-                    elevations.push(ele);
+                    lastLat = lat; 
+                    lastLon = lon; 
+                    lastEle = ele;
+                    
+                    elevations.push(ele !== null ? ele : 0);
                     labels.push(totalDistance.toFixed(1) + ' km');
                 });
 
-                const polyline = L.polyline(points, { color: '#2563eb', weight: 4 }).addTo(map);
-                map.fitBounds(polyline.getBounds());
-
-                if (points.length > 0) {
-                    const [startLat, startLon] = points[0];
-                    document.getElementById('googleMapsBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${startLat},${startLon}`;
-                    L.marker([startLat, startLon]).addTo(map).bindPopup('Punto di partenza');
+                if (points.length === 0) {
+                    throw new Error("Impossibile estrarre coordinate geografiche valide dal file GPX.");
                 }
 
+                // Disegna il tracciato sulla mappa
+                const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
+                map.fitBounds(polyline.getBounds(), { padding: [30, 30] });
+
+                const [startLat, startLon] = points[0];
+                document.getElementById('googleMapsBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${startLat},${startLon}`;
+                
+                L.marker([startLat, startLon]).addTo(map)
+                    .bindPopup('<b>Inizio Percorso</b><br>' + route.title).openPopup();
+
+                // Dati tecnici in sidebar
                 document.getElementById('statDistance').innerText = totalDistance.toFixed(2) + ' km';
-                document.getElementById('statEleGain').innerText = Math.round(eleGain) + ' m';
-                document.getElementById('statEleLoss').innerText = Math.round(eleLoss) + ' m';
-                document.getElementById('statMaxEle').innerText = Math.round(maxEle) + ' m';
-                document.getElementById('statMinEle').innerText = Math.round(minEle) + ' m';
+                document.getElementById('statEleGain').innerText = hasElevationData ? '+' + Math.round(eleGain) + ' m' : 'N/D';
+                document.getElementById('statEleLoss').innerText = hasElevationData ? '-' + Math.round(eleLoss) + ' m' : 'N/D';
+                document.getElementById('statMaxEle').innerText = (hasElevationData && maxEle !== -Infinity) ? Math.round(maxEle) + ' m' : 'N/D';
+                document.getElementById('statMinEle').innerText = (hasElevationData && minEle !== Infinity) ? Math.round(minEle) + ' m' : 'N/D';
 
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('routeContent').classList.remove('hidden');
+                // Mostra la pagina
+                if (loadingEl) loadingEl.classList.add('d-none');
+                document.getElementById('routeContent').classList.remove('d-none');
 
-                renderChart(labels, elevations);
+                // Renderizza il grafico o mostra un avviso se mancano i dati d'altitudine
+                if (hasElevationData) {
+                    renderChart(labels, elevations);
+                } else {
+                    const chartCanvas = document.getElementById('elevationChart');
+                    if (chartCanvas && chartCanvas.parentElement) {
+                        chartCanvas.parentElement.innerHTML = `
+                            <div class="alert alert-warning text-center my-3" role="alert">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                <strong>Dati altimetrici non disponibili:</strong> Questo file GPX non contiene le informazioni di quota (tag <code>&lt;ele&gt;</code>). Il tracciato sulla mappa è stato comunque generato correttamente.
+                            </div>`;
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Errore GPX:", err);
+                if (loadingEl) {
+                    loadingEl.innerHTML = `<div class="alert alert-danger max-w-600 mx-auto">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Errore durante l'elaborazione del tracciato: <br><code>${err.message}</code>
+                    </div>`;
+                }
             });
     }
 
@@ -102,27 +176,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderChart(labels, elevations) {
-        const ctx = document.getElementById('elevationChart').getContext('2d');
+        const chartEl = document.getElementById('elevationChart');
+        if (!chartEl) return;
+        const ctx = chartEl.getContext('2d');
+        
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(13, 110, 253, 0.35)');
+        gradient.addColorStop(1, 'rgba(13, 110, 253, 0.0)');
+
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Altitudine (m)',
+                    label: 'Quota (m)',
                     data: elevations,
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    borderColor: '#0d6efd',
+                    borderWidth: 2.5,
+                    backgroundColor: gradient,
                     fill: true,
-                    tension: 0.2,
+                    tension: 0.3,
                     pointRadius: 0
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } },
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
                 scales: {
-                    x: { ticks: { maxTicksLimit: 10 } },
-                    y: { title: { display: true, text: 'Metri (m)' } }
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicksLimit: 8 }
+                    },
+                    y: {
+                        grid: { color: '#f1f5f9' },
+                        title: { display: true, text: 'Altitudine (metri)' }
+                    }
                 }
             }
         });
