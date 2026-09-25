@@ -15,19 +15,14 @@
 }
 
 /* Colorazione Badge Difficoltà */
-.badge-facile {
+.badge-percorsi {
     background-color: #d1e7dd !important;
     color: #0f5132 !important;
 }
 
-.badge-media {
+.badge-raduni {
     background-color: #fff3cd !important;
     color: #664d03 !important;
-}
-
-.badge-difficile {
-    background-color: #f8d7da !important;
-    color: #842029 !important;
 }
 
 /* Z-Index fix per mappa Leaflet */

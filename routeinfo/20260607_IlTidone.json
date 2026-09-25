@@ -1,0 +1,40 @@
+  {
+    "id": "20260607_IlTidone",
+    "title": "Il Tidone",
+    "category": "Raduni",
+    "distance_km": 12.4,
+    "elevation_gain_m": 720,
+    "gpx_file": "gpx/20260607_IlTidone.gpx",
+    "description": "Il giro della valle del tidone",
+    "date": "2026-06-07",
+    "POI":[
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Start",
+        "order": 0,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "End",
+        "order": 2,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Sosta",
+        "order": 1,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      },
+      {
+        "id": "20260607_IlTIdone_POI",
+        "type": "Ristorante",
+        "order": 2,
+        "descrizione": "Casa Galli",
+        "city": "Castel San Giovanni"
+      }
+    ]
+  }

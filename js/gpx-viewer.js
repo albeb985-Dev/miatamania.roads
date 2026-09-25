@@ -28,11 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     function getBadgeClass(diff) {
-        if (!diff) return 'bg-secondary text-white';
         switch(diff.toLowerCase()) {
-            case 'facile': return 'badge-facile';
-            case 'media': return 'badge-media';
-            case 'difficile': return 'badge-difficile';
+            case 'percorsi': return 'badge-percorsi';
+            case 'raduni': return 'badge-raduni';
             default: return 'bg-secondary text-white';
         }
     }
@@ -42,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('routeDescription').innerText = route.description || '';
         
         const badge = document.getElementById('routeBadge');
-        badge.innerText = route.difficulty || 'N/D';
-        badge.className = `badge ${getBadgeClass(route.difficulty)} px-3 py-2 rounded-pill fs-6 mb-2`;
+        badge.innerText = route.category || 'N/D';
+        badge.className = `badge ${getBadgeClass(route.category)} px-3 py-2 rounded-pill fs-6 mb-2`;
 
         document.getElementById('downloadGpxBtn').href = route.gpx_file;
 

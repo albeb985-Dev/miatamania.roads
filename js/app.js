@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('routesGrid');
     const searchInput = document.getElementById('searchInput');
-    const difficultyFilter = document.getElementById('difficultyFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
     let allRoutes = [];
 
     fetch('data/routes.json')
@@ -19,9 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getBadgeClass(diff) {
         switch(diff.toLowerCase()) {
-            case 'facile': return 'badge-facile';
-            case 'media': return 'badge-media';
-            case 'difficile': return 'badge-difficile';
+            case 'percorsi': return 'badge-percorsi';
+            case 'raduni': return 'badge-raduni';
             default: return 'bg-secondary text-white';
         }
     }
@@ -43,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card h-100 border-0 shadow-sm rounded-4 route-card-hover overflow-hidden">
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="badge ${getBadgeClass(route.difficulty)} px-3 py-2 rounded-pill fw-semibold">
-                                ${route.difficulty}
+                            <span class="badge ${getBadgeClass(route.category)} px-3 py-2 rounded-pill fw-semibold">
+                                ${route.category}
                             </span>
                             <span class="text-muted small"><i class="bi bi-geo-alt text-primary me-1"></i> GPX</span>
                         </div>
@@ -75,19 +74,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterRoutes() {
         const query = searchInput.value.toLowerCase();
-        const diff = difficultyFilter.value;
+        const diff = categoryFilter.value;
 
         const filtered = allRoutes.filter(r => {
             const matchesQuery = r.title.toLowerCase().includes(query) || r.description.toLowerCase().includes(query);
-            const matchesDiff = diff === 'all' || r.difficulty.toLowerCase() === diff.toLowerCase();
+            const matchesDiff = diff === 'all' || r.category.toLowerCase() === diff.toLowerCase();
             return matchesQuery && matchesDiff;
         });
 
         renderRoutes(filtered);
     }
 
-    if (searchInput && difficultyFilter) {
+    if (searchInput && categoryFilter) {
         searchInput.addEventListener('input', filterRoutes);
-        difficultyFilter.addEventListener('change', filterRoutes);
+        categoryFilter.addEventListener('change', filterRoutes);
     }
 });
