@@ -8,36 +8,38 @@
     "year": 2026,
     "date": "2026-06-07",
     "gpx_file": "files/gpx/20260607_IlTidone.gpx",
-    "roadbook_file": "files/gpx/20260607_IlTidone.gpx",
+    "roadbook_file": "",
     "maps_url": "",
-    "POI":[
+    "pois":[
       {
-        "id": "20260607_IlTIdone_POI",
-        "type": "Start",
+        "id": "Tidone_Inizio",
+        "category": "Inizio",
         "order": 0,
-        "descrizione": "Casa Galli",
-        "city": "Castel San Giovanni"
+        "descrizione": "Parcheggio Coop",
+        "city": "Castel San Giovanni",
+        "lat": 45.0575798,
+        "lng": 9.4470302,
+        "poi_file": ""
       },
       {
-        "id": "20260607_IlTIdone_POI",
-        "type": "End",
-        "order": 2,
-        "descrizione": "Casa Galli",
-        "city": "Castel San Giovanni"
-      },
-      {
-        "id": "20260607_IlTIdone_POI",
-        "type": "Sosta",
+        "id": "Tidone_Sosta",
+        "category": "Sosta",
         "order": 1,
-        "descrizione": "Casa Galli",
-        "city": "Castel San Giovanni"
+        "descrizione": "Ristorante-Bar Quattro Venti",
+        "city": "Nibbiano",
+        "lat": 44.9047809,
+        "lng": 9.2807146,
+        "poi_file": ""
       },
       {
-        "id": "20260607_IlTIdone_POI",
-        "type": "Ristorante",
+        "id": "Rist_CasaGalli",
+        "category": "Ristorante",
         "order": 2,
-        "descrizione": "Casa Galli",
-        "city": "Castel San Giovanni"
+        "descrizione": "Agriturismo Casa Galli",
+        "city": "Ziano Piacentino",
+        "lat": 44.9882657,
+        "lng": 9.3748569,
+        "poi_file": "files/poisinfo/AgriturismoCasaGalli.json"
       }
     ]
   }
