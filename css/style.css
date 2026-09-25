@@ -34,3 +34,61 @@
 #map {
     z-index: 1;
 }
+
+/* Styling dei marker Leaflet */
+.custom-poi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.poi-restaurant { background-color: #e67e22; }
+.poi-stop { background-color: #2980b9; }
+.poi-waypoint { background-color: #27ae60; }
+
+/* Contenitore e Lista POI */
+.poi-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.poi-card-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.poi-card-item:hover {
+  background: #f0f0f0;
+}
+
+.poi-order-number {
+  background: #2c3e50;
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 11px;
+}
+
+.poi-category-label {
+  display: block;
+  color: #7f8c8d;
+  font-size: 11px;
+}

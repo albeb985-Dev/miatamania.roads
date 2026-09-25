@@ -52,7 +52,25 @@ document.addEventListener('DOMContentLoaded', () => {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        fetch(route.gpx_file)
+        // Get Info File
+        fetch(`data/routeinfo/${routeId}.json`)
+        .then(response => response.json())
+        .then(data => {
+            // Carica il tracciato GPX sulla mappa
+            if (data.gpxFile) {
+            loadGpxTrack(data.gpx_file, map);
+            }
+
+            if (data.pois && Array.isArray(data.pois)) {
+            renderRoutePois(data.pois, map);           
+            }
+        })
+        .catch(err => console.error('Errore nel caricamento del file routeinfo:', err));
+    }
+
+    function loadGpxTrack(gpxfile,map)
+    {
+        fetch(gpxfile)
             .then(res => {
                 if (!res.ok) throw new Error(`File GPX non trovato al percorso: ${route.gpx_file}`);
                 return res.text();
@@ -128,8 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const [startLat, startLon] = points[0];
                 document.getElementById('googleMapsBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${startLat},${startLon}`;
                 
-                L.marker([startLat, startLon]).addTo(map)
-                    .bindPopup('<b>Inizio Percorso</b><br>' + route.title).openPopup();
+                L.marker([startLat, startLon]).addTo(map).bindPopup('<b>Inizio Percorso</b><br>' + route.title).openPopup();
 
                 // Dati tecnici in sidebar
                 document.getElementById('statDistance').innerText = totalDistance.toFixed(2) + ' km';
@@ -164,6 +181,86 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
                 }
             });
+    }
+
+    // Funzione 1: Genera il marker Leaflet personalizzato
+    function createPoiMarker(poi) {
+    let symbol = '📍';
+    let badgeClass = 'poi-waypoint';
+
+    if (poi.category === 'Ristorante') {
+        symbol = '🍽️';
+        badgeClass = 'poi-restaurant';
+    } else if (poi.category === 'Sosta') {
+        symbol = poi.order ? poi.order : 'P';
+        badgeClass = 'poi-stop';
+    } else if (poi.category === 'Punto di Passaggio') {
+        symbol = poi.order ? poi.order : '•';
+        badgeClass = 'poi-waypoint';
+    }
+
+    const customIcon = L.divIcon({
+        className: `custom-poi-icon ${badgeClass}`,
+        html: `<span>${symbol}</span>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+    });
+
+    const marker = L.marker([poi.lat, poi.lng], { icon: customIcon });
+
+    const popupContent = `
+        <div class="poi-popup">
+        <span class="poi-badge ${badgeClass}">${poi.category}</span>
+        ${poi.order ? `<span class="poi-order-badge">#${poi.order}</span>` : ''}
+        <h4>${poi.name}</h4>
+        <p>${poi.description || ''}</p>
+        </div>
+    `;
+
+    marker.bindPopup(popupContent);
+    return marker;
+    }
+
+    // Funzione 2: Ordina i POI, crea i marker e popola la lista HTML
+    function renderRoutePois(pois, map) {
+    // Ordina Soste e Punti di Passaggio per 'order'
+    const sortedPois = [...pois].sort((a, b) => {
+        if (a.order && b.order) return a.order - b.order;
+        if (a.order) return -1;
+        if (b.order) return 1;
+        return 0;
+    });
+
+    const poiContainer = document.getElementById('route-poi-list');
+    if (poiContainer) poiContainer.innerHTML = '';
+
+    sortedPois.forEach(poi => {
+        // 1. Aggiunge il marker sulla mappa
+        const marker = createPoiMarker(poi).addTo(map);
+
+        // 2. Popola l'elemento nella lista in pagina (se presente)
+        if (poiContainer) {
+        const poiCard = document.createElement('div');
+        poiCard.className = 'poi-card-item';
+        poiCard.innerHTML = `
+            <div class="poi-card-header">
+            ${poi.order ? `<span class="poi-order-number">${poi.order}</span>` : ''}
+            <div>
+                <strong>${poi.name}</strong>
+                <small class="poi-category-label">${poi.category}</small>
+            </div>
+            </div>
+        `;
+
+        // Cliccando sul POI in lista, la mappa si centra sul punto
+        poiCard.addEventListener('click', () => {
+            map.flyTo([poi.lat, poi.lng], 15);
+            marker.openPopup();
+        });
+
+        poiContainer.appendChild(poiCard);
+        }
+    });
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
