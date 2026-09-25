@@ -1,0 +1,51 @@
+  {
+    "id": "20261018_LoZambla",
+    "title": "Lo Zambla",
+    "description": "Passo zambla",
+    "category": "Raduni",
+    "country": "Italia",
+    "region": "Lombardia",
+    "year": 2026,
+    "date": "2026-10-18",
+    "gpx_file": "files/gpx/20261018_LoZambla.gpx",
+    "roadbook_file": "",
+    "maps_url": "",
+    "pois":[
+      {
+        "id": "Zambla_Inizio",
+        "category": "Ritrovo",
+        "order": 1,
+        "name": "Parcheggio Lidl",
+        "city": "Grumello del Monte",
+        "address":"Via Alessandro Volta, 9",
+        "lat": 45.6328053,
+        "lng": 9.8620327,
+        "poi_file": "",
+        "maps_url": "https://maps.app.goo.gl/FRc3EATqNtQpvsMc7"
+      },
+      {
+        "id": "Zambla_Sosta",
+        "category": "Sosta",
+        "order": 2,
+        "name": "TBD",
+        "city": "TBD",
+        "address":"",
+        "lat": 45.7389095,
+        "lng": 9.8819801,
+        "poi_file": "",
+        "maps_url": "https://maps.app.goo.gl/CZ6L6BAgDuXBXjhH8"
+      },
+      {
+        "id": "Rist_QuattroCime",
+        "category": "Ristorante",
+        "order": 3,
+        "name": "Ristorante - Pizzeria Quattro Cime",
+        "city": "Zambla Alta",
+        "address":"Via Fezzoli, 491",
+        "lat": 45.9310135,
+        "lng": 9.7968621,
+        "poi_file": "files/poisinfo/RistPizzQuattroCime.json",
+        "maps_url": "https://maps.app.goo.gl/VrnC4v3r7vtwkLRA7"
+      }
+    ]
+  }

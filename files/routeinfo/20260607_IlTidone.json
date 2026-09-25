@@ -13,33 +13,39 @@
     "pois":[
       {
         "id": "Tidone_Inizio",
-        "category": "Inizio",
-        "order": 0,
-        "descrizione": "Parcheggio Coop",
+        "category": "Ritrovo",
+        "order": 1,
+        "name": "Parcheggio Coop",
         "city": "Castel San Giovanni",
+        "address":"",
         "lat": 45.0575798,
         "lng": 9.4470302,
-        "poi_file": ""
+        "poi_file": "",
+        "maps_url": "https://maps.app.goo.gl/Bq9Fhj3H2uStWcKR7"
       },
       {
         "id": "Tidone_Sosta",
         "category": "Sosta",
-        "order": 1,
-        "descrizione": "Ristorante-Bar Quattro Venti",
+        "order": 2,
+        "name": "Ristorante-Bar Quattro Venti",
         "city": "Nibbiano",
-        "lat": 44.9047809,
-        "lng": 9.2807146,
-        "poi_file": ""
+        "address":"",
+        "lat": 44.9045373,
+        "lng": 9.2802794,
+        "poi_file": "",
+        "maps_url": "https://maps.app.goo.gl/jcgkMGfmMotS154eA"
       },
       {
         "id": "Rist_CasaGalli",
         "category": "Ristorante",
-        "order": 2,
-        "descrizione": "Agriturismo Casa Galli",
+        "order": 3,
+        "name": "Agriturismo Casa Galli",
         "city": "Ziano Piacentino",
-        "lat": 44.9882657,
-        "lng": 9.3748569,
-        "poi_file": "files/poisinfo/AgriturismoCasaGalli.json"
+        "address":"",
+        "lat": 44.9985402,
+        "lng": 9.3925663,
+        "poi_file": "files/poisinfo/AgriturismoCasaGalli.json",
+        "maps_url": "https://maps.app.goo.gl/eBQ4SDC2mypwjtwp7"
       }
     ]
   }

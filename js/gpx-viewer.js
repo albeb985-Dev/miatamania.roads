@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initRouteDetail(route) {
-        console.log('initroutedetail');
         document.getElementById('routeTitle').innerText = route.title || 'Percorso';
         document.getElementById('routeDescription').innerText = route.description || '';
         
@@ -138,12 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Disegna il tracciato sulla mappa
                 const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
                 map.fitBounds(polyline.getBounds(), { padding: [30, 30] });
-
-                const [startLat, startLon] = points[0];
-                document.getElementById('googleMapsBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${startLat},${startLon}`;
                 
-                L.marker([startLat, startLon]).addTo(map).bindPopup('<b>Inizio Percorso</b><br>' + route.title).openPopup();
-
                 // Dati tecnici in sidebar
                 document.getElementById('statDistance').innerText = totalDistance.toFixed(2) + ' km';
                 document.getElementById('statEleGain').innerText = hasElevationData ? '+' + Math.round(eleGain) + ' m' : 'N/D';
@@ -182,8 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Funzione 1: Genera il marker Leaflet personalizzato
     function createPoiMarker(poi) 
     {
-        console.log('createPOIMarker');
-        console.log(poi);
         let symbol = '📍';
         let badgeClass = 'poi-waypoint';
 
@@ -210,9 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const popupContent = `
             <div class="poi-popup">
             <span class="poi-badge ${badgeClass}">${poi.category}</span>
-            ${poi.order ? `<span class="poi-order-badge">#${poi.order}</span>` : ''}
             <h4>${poi.name}</h4>
-            <p>${poi.description || ''}</p>
+            <p>${poi.address}, ${poi.city}</p>
+            <p><a href="${poi.maps_url}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                        Mostra su Maps
+                    </a></p>
             </div>
         `;
 
@@ -221,7 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Funzione 2: Ordina i POI, crea i marker e popola la lista HTML
-    function renderRoutePois(pois, map) {
+    function renderRoutePois(pois, map) 
+    {
     // Ordina Soste e Punti di Passaggio per 'order'
         const sortedPois = [...pois].sort((a, b) => {
             if (a.order && b.order) return a.order - b.order;
@@ -233,6 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const poiContainer = document.getElementById('route-poi-list');
     if (poiContainer) poiContainer.innerHTML = '';
 
+    const poiNavigateBtn = document.getElementById('navigatebtnlist');
+    if (poiNavigateBtn) poiNavigateBtn.innerHTML = '';
+
     sortedPois.forEach(poi => {
         // 1. Aggiunge il marker sulla mappa
         const marker = createPoiMarker(poi).addTo(map);
@@ -243,10 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
         poiCard.className = 'poi-card-item';
         poiCard.innerHTML = `
             <div class="poi-card-header">
-            ${poi.order ? `<span class="poi-order-number">${poi.order}</span>` : ''}
+            <span class="text-secondary"><i class="${GetPOIIcon(poi)}"></i> ${poi.category}</span>
             <div>
-                <strong>${poi.name}</strong>
-                <small class="poi-category-label">${poi.category}</small>
+            <strong>${poi.name}</strong>
+            <small class="poi-city-label">${poi.address? poi.address + ',':''} ${poi.city}</small>
+            <small><a href="${poi.maps_url}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                        Mostra su Maps
+                    </a></small>
             </div>
             </div>
         `;
@@ -259,7 +260,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         poiContainer.appendChild(poiCard);
         }
+
+        // 3. Popola la lista dei bottoni per navigare i POI
+        if (poiContainer) {
+        const poiBtn = document.createElement('li');
+        poiBtn.innerHTML = `
+                    <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                        Vai a ${poi.category}
+                    </a>
+        `;
+
+        poiNavigateBtn.appendChild(poiBtn);
+        }
     });
+    }
+
+    function ComposeGoogleMapsNavigationUrl(poi)
+    {
+        return `https://www.google.com/maps/dir/?api=1&destination=${poi.lat},${poi.lng}`;
+    }
+
+    function GetPOIIcon(poi)
+    {
+        switch(poi.category)
+        {
+            case 'Ritrovo':return("bi bi-flag");
+            case 'Sosta': return("bi bi-cup-hot");
+            case 'Ristorante': return("ri-restaurant-line")
+        }
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
