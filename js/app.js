@@ -53,16 +53,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         <div class="p-3 bg-light rounded-3 d-flex justify-content-around text-center mb-3 border">
                             <div>
-                                <small class="text-muted d-block"><i class="bi bi-ruler me-1"></i> Distanza</small>
-                                <strong class="text-dark">${route.distance_km} km</strong>
+                                <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i>Stato</small>
+                                <strong class="text-dark">+${route.country}</strong>
                             </div>
                             <div class="border-start"></div>
                             <div>
-                                <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i> Dislivello</small>
-                                <strong class="text-dark">+${route.elevation_gain_m} m</strong>
+                                <small class="text-muted d-block"><i class="bi bi-arrow-up-right-circle text-success me-1"></i>Stato</small>
+                                <strong class="text-dark">+${route.region}</strong>
+                            </div>
+                            <div class="border-start"></div>
+                            <div>
+                                <small class="text-muted d-block"><i class="bi bi-ruler me-1"></i> Distanza</small>
+                                <strong class="text-dark">${route.distance_km} km</strong>
                             </div>
                         </div>
-
                         <a href="percorso.html?id=${route.id}" class="btn btn-outline-primary rounded-3 w-100 fw-semibold">
                             Visualizza Scheda <i class="bi bi-chevron-right ms-1"></i>
                         </a>
