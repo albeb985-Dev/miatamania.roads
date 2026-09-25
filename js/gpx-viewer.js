@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).addTo(map);
 
         // Get Info File
-        fetch(`data/routeinfo/${routeId}.json`)
+        fetch(`files/routeinfo/${routeId}.json`)
         .then(response => response.json())
         .then(data => {
             // Carica il tracciato GPX sulla mappa
