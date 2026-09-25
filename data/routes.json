@@ -1,0 +1,20 @@
+[
+  {
+    "id": "anello-catria",
+    "title": "Anello del Monte Catria",
+    "difficulty": "Media",
+    "distance_km": 12.4,
+    "elevation_gain_m": 720,
+    "gpx_file": "gpx/demo-catria.gpx",
+    "description": "Un classico percorso ad anello tra praterie sommitali e vette panoramiche dell'Appennino."
+  },
+  {
+    "id": "sentiero-costiera",
+    "title": "Sentiero Panoramico della Costiera",
+    "difficulty": "Facile",
+    "distance_km": 6.8,
+    "elevation_gain_m": 180,
+    "gpx_file": "gpx/demo-costiera.gpx",
+    "description": "Piacevole passeggiata a picco sul mare adatta a tutti, con splendidi scorci panoramici."
+  }
+]

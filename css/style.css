@@ -1,0 +1,36 @@
+/* Stili integrativi a Bootstrap 5 */
+
+.max-w-600 {
+    max-width: 650px;
+}
+
+/* Transizione hover per le card dei percorsi */
+.route-card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.route-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Colorazione Badge Difficoltà */
+.badge-facile {
+    background-color: #d1e7dd !important;
+    color: #0f5132 !important;
+}
+
+.badge-media {
+    background-color: #fff3cd !important;
+    color: #664d03 !important;
+}
+
+.badge-difficile {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
+}
+
+/* Z-Index fix per mappa Leaflet */
+#map {
+    z-index: 1;
+}
