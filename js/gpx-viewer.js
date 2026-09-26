@@ -177,7 +177,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('routeContent').classList.remove('d-none');
                 */
                // Disegna il tracciato sulla mappa
+                //const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
                 const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
+
+                // Mostra la pagina
+                if (loadingEl) loadingEl.classList.add('d-none');
+                document.getElementById('routeContent').classList.remove('d-none');
+
+                // Ricalcola le dimensioni della mappa
+                map.invalidateSize();
+
+                // Funzione per ripristinare la vista completa dell'itinerario
+                const resetRouteView = () => {
+                    map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
+                };
+
+                // Inquadra subito l'intero percorso al caricamento iniziale
+                resetRouteView();
+
+                // Collega il click del titolo/icona "Mappa del Tracciato" al reset dello zoom
+                const resetHeader = document.getElementById('resetMapHeader');
+                if (resetHeader) {
+                    resetHeader.addEventListener('click', resetRouteView);
+                }
 
                 // 1. Mostra prima il contenitore HTML rimuovendo la classe 'd-none'
                 if (loadingEl) loadingEl.classList.add('d-none');
