@@ -46,8 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('downloadGpxBtn').href = route.gpx_file;
 
+        /*
         // Inizializza Mappa Leaflet
         const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        */
+        // Inizializza Mappa Leaflet con supporto al gesto a 2 dita / Ctrl+Scroll
+        const map = L.map('map', {
+            gestureHandling: true // Abilita il plugin per il controllo a due dita / Ctrl+Scroll
+        }).setView([0, 0], 2);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -134,20 +144,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error("Impossibile estrarre coordinate geografiche valide dal file GPX.");
                 }
 
+                /*
                 // Disegna il tracciato sulla mappa
                 const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
-                map.fitBounds(polyline.getBounds(), { padding: [30, 30] });
+                map.fitBounds(polyline.getBounds(), { padding: [30, 30],maxZoom: 10 });
+                map.invalidateSize();
                 
+                // Mostra la pagina
+                if (loadingEl) loadingEl.classList.add('d-none');
+                document.getElementById('routeContent').classList.remove('d-none');
+                */
+               // Disegna il tracciato sulla mappa
+                const polyline = L.polyline(points, { color: '#0d6efd', weight: 5, opacity: 0.8 }).addTo(map);
+
+                // 1. Mostra prima il contenitore HTML rimuovendo la classe 'd-none'
+                if (loadingEl) loadingEl.classList.add('d-none');
+                document.getElementById('routeContent').classList.remove('d-none');
+
+                // 2. Ricalcola subito le reali dimensioni della mappa per evitare il bug dei tasselli grigi su desktop
+                map.invalidateSize();
+
+                // 3. Inquadra l'intero tracciato lasciando del margine attorno (padding)
+                map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
+
                 // Dati tecnici in sidebar
                 document.getElementById('statDistance').innerText = totalDistance.toFixed(2) + ' km';
                 document.getElementById('statEleGain').innerText = hasElevationData ? '+' + Math.round(eleGain) + ' m' : 'N/D';
                 document.getElementById('statEleLoss').innerText = hasElevationData ? '-' + Math.round(eleLoss) + ' m' : 'N/D';
                 document.getElementById('statMaxEle').innerText = (hasElevationData && maxEle !== -Infinity) ? Math.round(maxEle) + ' m' : 'N/D';
                 document.getElementById('statMinEle').innerText = (hasElevationData && minEle !== Infinity) ? Math.round(minEle) + ' m' : 'N/D';
-
-                // Mostra la pagina
-                if (loadingEl) loadingEl.classList.add('d-none');
-                document.getElementById('routeContent').classList.remove('d-none');
 
                 // Renderizza il grafico o mostra un avviso se mancano i dati d'altitudine
                 if (hasElevationData) {
