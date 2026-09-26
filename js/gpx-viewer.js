@@ -53,14 +53,36 @@ document.addEventListener('DOMContentLoaded', () => {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
         */
+        /*
         // Inizializza Mappa Leaflet con supporto al gesto a 2 dita / Ctrl+Scroll
         const map = L.map('map', {
             gestureHandling: true // Abilita il plugin per il controllo a due dita / Ctrl+Scroll
+        }).setView([0, 0], 2);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        */
+        // Verifica se il dispositivo è uno smartphone/tablet (es. larghezza <= 768px o supporto touch)
+        const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+
+        // Inizializza Mappa Leaflet
+        const map = L.map('map', {
+            // Su desktop la mappa si trascina liberamente, su mobile disabilitiamo il trascinamento a un dito
+            dragging: !isMobile,
+            
+            // Disabilita lo zoom con la rotellina su mobile per evitare blocchi dello scroll di pagina
+            scrollWheelZoom: !isMobile, 
+            
+            // Su mobile abilita la gestione del touch a due dita per il pinch-to-zoom
+            touchZoom: true
         }).setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
+
+
 
         // Get Info File
         fetch(`files/routeinfo/${routeId}.json`)
