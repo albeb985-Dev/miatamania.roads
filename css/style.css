@@ -115,9 +115,11 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
-.poi-restaurant { background-color: #e67e22; }
-.poi-stop { background-color: #2980b9; }
+.poi-restaurant { background-color: #ff0000; }
 .poi-waypoint { background-color: #27ae60; }
+.poi-meeting { background-color: #fdfdfd; }
+.poi-arrival { background-color: #4b4b4b; }
+.poi-stop { background-color: #ff0000; }
 
 /* Contenitore e Lista POI */
 .poi-list-container {

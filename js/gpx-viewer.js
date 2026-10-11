@@ -252,11 +252,17 @@ document.addEventListener('DOMContentLoaded', () => {
             symbol = '🍽️';
             badgeClass = 'poi-restaurant';
         } else if (poi.category === 'Sosta') {
-            symbol = poi.order ? poi.order : 'P';
+            symbol = '☕';
             badgeClass = 'poi-stop';
         } else if (poi.category === 'Punto di Passaggio') {
-            symbol = poi.order ? poi.order : '•';
+            symbol = '🚩';
             badgeClass = 'poi-waypoint';
+        } else if (poi.category === 'Ritrovo') {
+            symbol = '🚗';
+            badgeClass = 'poi-meeting';
+        } else if (poi.category === 'Arrivo') {
+            symbol = '🏁';
+            badgeClass = 'poi-arrival';
         }
 
         const customIcon = L.divIcon({
@@ -310,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
         poiCard.className = 'poi-card-item';
         poiCard.innerHTML = `
             <div class="poi-card-header">
-            <span class="text-secondary"><i class="${GetPOIIcon(poi)}"></i> ${poi.category}</span>
+            <span class="text-secondary"><i class="${GetPOIIcon(poi)}"></i> ${poi.category} ${poi.arrival_time? 'Ore ' + poi.arrival_time:''}</span>
             <div>
             <strong>${poi.name}</strong>
             <small class="poi-city-label">${poi.address? poi.address + ',':''} ${poi.city}</small>
@@ -353,9 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
     {
         switch(poi.category)
         {
-            case 'Ritrovo':return("bi bi-flag");
+            case 'Ritrovo':return("bi bi-flag-fill");
             case 'Sosta': return("bi bi-cup-hot");
-            case 'Ristorante': return("ri-restaurant-line")
+            case 'Ristorante': return("ri-restaurant-line");
+            case 'Arrivo': return("bi bi-flag")
         }
     }
 
