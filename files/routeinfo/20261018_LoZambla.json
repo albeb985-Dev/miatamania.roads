@@ -1,7 +1,7 @@
-  {
+{
     "id": "20261018_LoZambla",
     "title": "Lo Zambla",
-    "description": "Passo zambla",
+    "description": "Destinazione Passo zambla",
     "category": "Raduni",
     "country": "Italia",
     "region": "Lombardia",
@@ -10,42 +10,66 @@
     "gpx_file": "files/gpx/20261018_LoZambla.gpx",
     "roadbook_file": "",
     "maps_url": "",
-    "pois":[
-      {
-        "id": "Zambla_Inizio",
-        "category": "Ritrovo",
-        "order": 1,
-        "name": "Parcheggio Lidl",
-        "city": "Grumello del Monte",
-        "address":"Via Alessandro Volta, 9",
-        "lat": 45.6328053,
-        "lng": 9.8620327,
-        "poi_file": "",
-        "maps_url": "https://maps.app.goo.gl/XsnGAwFVt465mjRi7"
-      },
-      {
-        "id": "Zambla_Sosta",
-        "category": "Sosta",
-        "order": 2,
-        "name": "TBD",
-        "city": "TBD",
-        "address":"",
-        "lat": 45.7389095,
-        "lng": 9.8819801,
-        "poi_file": "",
-        "maps_url": "https://maps.app.goo.gl/CZ6L6BAgDuXBXjhH8"
-      },
-      {
-        "id": "Rist_QuattroCime",
-        "category": "Ristorante",
-        "order": 3,
-        "name": "Ristorante - Pizzeria Quattro Cime",
-        "city": "Zambla Alta",
-        "address":"Via Fezzoli, 491",
-        "lat": 45.9310135,
-        "lng": 9.7968621,
-        "poi_file": "files/poisinfo/RistPizzQuattroCime.json",
-        "maps_url": "https://maps.app.goo.gl/VrnC4v3r7vtwkLRA7"
-      }
+    "pois": [
+        {
+            "id": "Zambla_Inizio",
+            "category": "Ritrovo",
+            "order": 1,
+            "name": "Caffé del Parco",
+            "city": "Grumello del Monte",
+            "county": "BG",
+            "postcode": "24064",
+            "address":"Via Alessandro Volta",
+            "lat": 45.633139,
+            "lng": 9.861422,
+            "poi_file": "",
+            "maps_url": "https://maps.app.goo.gl/7WZ7sAhsKarT7QNFA",
+            "arrival_time": "09:00",
+            "departure_time": "09:30"
+        },
+        {
+            "id": "Zambla_Sosta",
+            "category": "Sosta",
+            "order": 2,
+            "name": "Faro Store",
+            "city": "Albino",
+            "county": "BG",
+            "postcode": "24021",
+            "address": "Via Sandro Pertini, 9",
+            "lat": 45.76561,
+            "lng": 9.812269,
+            "poi_file": "",
+            "maps_url": "https://maps.app.goo.gl/PXoAmADPZTxC8r5U6"
+        },
+        {
+            "id": "Rist_QuattroCime",
+            "category": "Ristorante",
+            "order": 3,
+            "name": "Ristorante - Pizzeria Quattro Cime",
+            "city": "Zambla Alta",
+            "county": "BG",
+            "postcode": "24013",
+            "address":"Via Fezzoli, 491",
+            "lat": 45.894382,
+            "lng": 9.797708,
+            "poi_file": "",
+            "maps_url": "https://maps.app.goo.gl/88FNz2ZPSrY3zmBS9",
+            "website": "http://www.quattrocime.it/",
+            "arrival_time": "13:00"
+        },
+        {
+            "id": "Zambla_Dest",
+            "category": "Arrivo",
+            "order": 4,
+            "name": "McDonald's Bergamo Via S. Giovanni Bosco",
+            "city": "Bergamo",
+            "county": "BG",
+            "postcode": "24125",
+            "address":"Via S. Giovanni Bosco, 72",
+            "lat": 45.894382,
+            "lng": 9.797708,
+            "poi_file": "",
+            "maps_url": "https://maps.app.goo.gl/hymdBtPaqDpUyJ1x9"
+        }
     ]
-  }
+}
