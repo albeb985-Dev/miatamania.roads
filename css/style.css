@@ -3,104 +3,73 @@
   --colore-secondario: #1e1e1e;
 }
 
-
 /* Stili integrativi a Bootstrap 5 */
 .bg-primary {
-  background-color: var(--colore-secondario)!important;
+  background-color: var(--colore-secondario) !important;
 }
 
 .bg-red {
   background-color: var(--colore-primario);
 }
 
-.navbtn-dark{
-  background-color: black;
+.fs-7 {
+  font-size: 0.75rem !important;
 }
 
-/* 1. Assicurati che il contenitore padre dell'header usi Flexbox e abbia un'altezza definita o flessibile */
+.fs-8 {
+  font-size: 0.6875rem !important;
+  letter-spacing: 0.03em;
+}
+
+/* Stile personalizzato per le Nav Pills su mobile */
+.nav-pills .nav-link {
+  color: var(--colore-secondario);
+  background-color: #f1f3f5;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+  color: #fff;
+  background-color: var(--colore-primario);
+}
+
+/* Logo Header */
 .logo-container {
   display: flex;
-  align-items: center; /* Allinea verticalmente logo e testo */
-  height: 60px; /* Imposta qui l'altezza massima desiderata per l'header o lasciala automatica */
+  align-items: center;
+  height: 40px;
 }
 
-/* 2. Regola l'immagine del logo per occupare il 100% dell'altezza del padre */
 .header-logo {
-  max-height: 80%;     /* Lascia un piccolo margine sopra e sotto */
+  max-height: 100%;
   width: auto;
   object-fit: contain;
 }
+
 .text-primary {
-    --bs-text-opacity: 1;
-    color: var(--colore-primario) !important;
-}
-.btn-outline-primary {
-    --bs-btn-color: var(--colore-primario);
-    --bs-btn-border-color: var(--colore-primario);
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--colore-primario);
-    --bs-btn-hover-border-color: var(--colore-primario);
-    --bs-btn-focus-shadow-rgb: 13, 110, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--colore-primario);
-    --bs-btn-active-border-color: var(--colore-primario);
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: var(--colore-primario);
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: var(--colore-primario);
-    --bs-gradient: none;
+  color: var(--colore-primario) !important;
 }
 
 .btn-primary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: var(--colore-primario);
-    --bs-btn-border-color: var(--colore-primario);
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--colore-secondario);
-    --bs-btn-hover-border-color: var(--colore-secondario);
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--colore-secondario);
-    --bs-btn-active-border-color: var(--colore-secondario);
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: var(--colore-primario);
-    --bs-btn-disabled-border-color: var(--colore-primario);
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--colore-primario);
+  --bs-btn-border-color: var(--colore-primario);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #cc0000;
+  --bs-btn-hover-border-color: #cc0000;
 }
 
-.max-w-600 {
-    max-width: 650px;
-}
-
-/* Transizione hover per le card dei percorsi */
-.route-card-hover {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.route-card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Colorazione Badge Difficoltà */
-.badge-percorsi {
-    background-color: #d1e7dd !important;
-    color: #0f5132 !important;
-}
-
-.badge-raduni {
-    background-color: #fff3cd !important;
-    color: #664d03 !important;
-}
-
-.badge-poi {
-    background-color: #fff3cd !important;
-    color: var(--colore-primario) !important;
+.btn-outline-primary {
+  --bs-btn-color: var(--colore-primario);
+  --bs-btn-border-color: var(--colore-primario);
+  --bs-btn-hover-bg: var(--colore-primario);
+  --bs-btn-hover-border-color: var(--colore-primario);
 }
 
 /* Z-Index fix per mappa Leaflet */
 #map {
-    z-index: 1;
+  z-index: 1;
 }
 
 /* Styling dei marker Leaflet */
@@ -111,41 +80,41 @@
   border-radius: 50%;
   color: white;
   font-weight: bold;
-  font-size: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  font-size: 11px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.poi-restaurant { background-color: #ff0000; }
+.poi-restaurant { background-color: #e90000; }
 .poi-waypoint { background-color: #27ae60; }
-.poi-meeting { background-color: #fdfdfd; }
-.poi-arrival { background-color: #4b4b4b; }
-.poi-stop { background-color: #ff0000; }
+.poi-meeting { background-color: #1e1e1e; }
+.poi-arrival { background-color: #333333; }
+.poi-stop { background-color: #e90000; }
 
-/* Contenitore e Lista POI */
+/* Lista POI / Cue Sheet */
 .poi-list-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
 }
 
 .poi-card-item {
   display: flex;
   align-items: center;
-  padding: 10px;
-  background: #f9f9f9;
-  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.15s ease-in-out;
 }
 
 .poi-card-item:hover {
-  background: #f0f0f0;
+  background: #eef2f5;
+  border-color: #ced4da;
 }
 
 .poi-order-number {
-  background: #2c3e50;
+  background: var(--colore-secondario);
   color: #fff;
   width: 22px;
   height: 22px;
@@ -154,53 +123,52 @@
   align-items: center;
   justify-content: center;
   margin-right: 10px;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: bold;
+  flex-shrink: 0;
 }
 
 .poi-city-label {
   display: block;
-  color: #7f8c8d;
+  color: #6c757d;
   font-size: 11px;
 }
 
-/* Overlay a schermo intero o per la sezione di caricamento */
+/* Overlay di caricamento */
 .loader-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(15, 15, 15, 0.9); /* Sfondo scuro/semitrasparente */
+  background-color: rgba(15, 15, 15, 0.92);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
-/* Contenitore della strada */
 .road-container {
   position: relative;
   width: 100%;
-  max-width: 600px; /* Larghezza del tratto di strada */
+  max-width: 600px;
   height: 100px;
   overflow: hidden;
 }
 
-/* Auto in movimento */
 .mx5-car {
   position: absolute;
   bottom: 12px;
-  width: 120px; /* Regola in base alle dimensioni dell'immagine */
+  width: 120px;
   height: auto;
   animation: drive 2s linear infinite;
 }
 
-/* Animazione da sinistra a destra */
 @keyframes drive {
   0% {
-    left: -130px; /* Parte fuori dallo schermo a sinistra */
+    left: -130px;
   }
   100% {
-    left: 100%; /* Scomparisce oltre il bordo destro */
+    left: 100%;
   }
 }

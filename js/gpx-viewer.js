@@ -42,9 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const badge = document.getElementById('routeBadge');
         badge.innerText = route.category || 'N/D';
-        badge.className = `badge ${getBadgeClass(route.category)} px-3 py-2 rounded-pill fs-6 mb-2`;
-
-        document.getElementById('downloadGpxBtn').href = route.gpx_file;
+        //badge.className = `badge ${getBadgeClass(route.category)} px-3 py-2 rounded-pill fs-6 mb-2`;
+        //document.getElementById('downloadGpxBtn').href = route.gpx_file;
 
         /*
         // Inizializza Mappa Leaflet
@@ -82,8 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-
-
         // Get Info File
         fetch(`files/routeinfo/${routeId}.json`)
         .then(response => response.json())
@@ -91,6 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Carica il tracciato GPX sulla mappa
             if (data.gpx_file) loadGpxTrack(data,map);
             if (data.pois && Array.isArray(data.pois)) renderRoutePois(data.pois, map);
+            if (data.gpx_part && Array.isArray(data.gpx_part)) renderGpxFileList(data.gpx_part,data.gpx_file);
+            if (data.maps_url && Array.isArray(data.maps_url)) renderGMapsUrlList(data.maps_url,map);
+            if (data.roadbook_file) renderDocumentUrlList(data.roadbook_file);
         })
         .catch(err => console.error('Errore nel caricamento del file routeinfo:', err));
     }
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const poiNavigateBtn = document.getElementById('navigatebtnlist');
     if (poiNavigateBtn) poiNavigateBtn.innerHTML = '';
 
-    sortedPois.forEach(poi => {
+    sortedPois.forEach((poi,index) => {
         // 1. Aggiunge il marker sulla mappa
         const marker = createPoiMarker(poi).addTo(map);
 
@@ -338,14 +338,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Popola la lista dei bottoni per navigare i POI
         if (poiContainer) {
-        const poiBtn = document.createElement('li');
-        poiBtn.innerHTML = `
-                    <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
-                        Vai a ${poi.category}
-                    </a>
-        `;
+            if (index==0)
+            {
+                const firstdestination = document.getElementById('firstdestid');
+                firstdestination.innerHTML = `
+                            <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                                Vai a ${poi.category}
+                            </a>
+                `;
+            }
+            else
+            {
+                const poiBtn = document.createElement('li');
+                poiBtn.innerHTML = `
+                            <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                                Vai a ${poi.category}
+                            </a>
+                `;
 
-        poiNavigateBtn.appendChild(poiBtn);
+                poiNavigateBtn.appendChild(poiBtn);
+            }
+
         }
     });
     }
@@ -416,5 +429,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+    }
+
+    function renderGpxFileList(GpxList, GpxGlobalFile)
+    {
+        // Multitraccia downloadbtn
+        const poiNavigateGpxBtn = document.getElementById('navigategpxbtnlist');
+        if (poiNavigateGpxBtn) poiNavigateGpxBtn.innerHTML = '';
+        
+        const GpxBtn = document.createElement('li');
+        GpxBtn.innerHTML = CreateGpxDownloadListElement('Gpx - Completo',GpxGlobalFile)
+        poiNavigateGpxBtn.appendChild(GpxBtn);
+
+        GpxList.forEach(GpxFile => {
+            // 1. Popola la lista dei bottoni
+            const GpxBtn = document.createElement('li');
+            GpxBtn.innerHTML = CreateGpxDownloadListElement(GpxFile.name,GpxFile.gpx_file)
+            poiNavigateGpxBtn.appendChild(GpxBtn);
+        });
+    }
+
+    function CreateGpxDownloadListElement(gpxname,gpxpath)
+    {
+        return `
+                <a href="${gpxpath}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                    ${gpxname}
+                </a>
+        `;
+    }
+
+    function renderGMapsUrlList(GMapsUrl, map) 
+    {
+        // Multitraccia downloadbtn
+        const poiNavigateGpxBtn = document.getElementById('mapstrackbtnlist');
+        if (poiNavigateGpxBtn) poiNavigateGpxBtn.innerHTML = '';
+
+        GMapsUrl.forEach(Url => {
+            // 1. Popola la lista dei bottoni
+            const GpxBtn = document.createElement('li');
+            GpxBtn.innerHTML = `
+                        <a href="${Url.maps_url}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                            ${Url.name}
+                        </a>
+            `;
+
+            poiNavigateGpxBtn.appendChild(GpxBtn);
+        });
+    }
+
+    function renderDocumentUrlList(rbfile) 
+    {
+        document.getElementById('downloadRoadBookBtn').href = rbfile;
     }
 });
