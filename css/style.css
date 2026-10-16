@@ -21,6 +21,43 @@
   letter-spacing: 0.03em;
 }
 
+/* CLASSE UNIFORME PER TUTTI I BOTTONI E IL LINK ROADBOOK */
+.uniform-action-btn {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  border-radius: 0.375rem !important;
+  line-height: 1.5 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Sottile linea di separazione trasparente tra i due tasti dello Split Button */
+.split-main-btn {
+  border-right: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Altezza e allineamento uniformati per la parte della freccetta dello split button */
+.uniform-action-btn-split {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  margin-left: 1px;
+}
+
 /* Stile personalizzato per le Nav Pills su mobile */
 .nav-pills .nav-link {
   color: var(--colore-secondario);
