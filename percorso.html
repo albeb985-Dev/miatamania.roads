@@ -61,23 +61,23 @@
                     </div>
                     <div class="col-md-2 border-end">
                         <div class="text-uppercase text-muted fs-8 fw-bold">Distanza</div>
-                        <div id="statDistance" class="fs-5 fw-bold text-dark">- km</div>
+                        <div class="fs-5 fw-bold text-dark js-statdistance">- km</div>
                     </div>
                     <div class="col-md-2 border-end">
                         <div class="text-uppercase text-muted fs-8 fw-bold">Dislivello (+)</div>
-                        <div id="statEleGain" class="fs-5 fw-bold text-success">- m</div>
+                        <div class="fs-5 fw-bold text-success js-statelegain">- m</div>
                     </div>
                     <div class="col-md-2 border-end">
                         <div class="text-uppercase text-muted fs-8 fw-bold">Dislivello (-)</div>
-                        <div id="statEleLoss" class="fs-5 fw-bold text-danger">- m</div>
+                        <div class="fs-5 fw-bold text-danger js-stateleloss">- m</div>
                     </div>
                     <div class="col-md-2 border-end">
                         <div class="text-uppercase text-muted fs-8 fw-bold">Alt. Max</div>
-                        <div id="statMaxEle" class="fs-5 fw-bold text-dark">- m</div>
+                        <div class="fs-5 fw-bold text-dark js-statmaxele">- m</div>
                     </div>
                     <div class="col-md-2">
                         <div class="text-uppercase text-muted fs-8 fw-bold">Alt. Min</div>
-                        <div id="statMinEle" class="fs-5 fw-bold text-dark">- m</div>
+                        <div class="fs-5 fw-bold text-dark js-statminele">- m</div>
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@
                                 <h6 class="fw-bold m-0 text-dark"><i class="bi bi-list-task text-danger me-1"></i> Punti di Interesse & Tappe</h6>
                             </div>
                             <div class="card-body p-2 overflow-auto" style="max-height: 580px;">
-                                <div id="route-poi-list" class="poi-list-container">
+                                <div class="poi-list-container js-routepoilist">
                                     <!-- Generato dinamicamente via JS -->
                                 </div>
                             </div>
@@ -205,23 +205,23 @@
                         <ul class="list-group list-group-flush rounded-bottom-3">
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
                                 <span class="text-secondary"><i class="bi bi-ruler me-2 text-primary"></i> Distanza Totale</span>
-                                <strong id="statDistance" class="fs-6">- km</strong>
+                                <strong class="fs-6 js-statdistance">- km</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
                                 <span class="text-secondary"><i class="bi bi-arrow-up-right-circle text-success me-2"></i> Dislivello (+)</span>
-                                <strong id="statEleGain" class="fs-6 text-success">- m</strong>
+                                <strong class="fs-6 text-success js-statelegain">- m</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
                                 <span class="text-secondary"><i class="bi bi-arrow-down-right-circle text-danger me-2"></i> Dislivello (-)</span>
-                                <strong id="statEleLoss" class="fs-6 text-danger">- m</strong>
+                                <strong class="fs-6 text-danger js-stateleloss">- m</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
                                 <span class="text-secondary"><i class="bi bi-triangle text-warning me-2"></i> Altitudine Max</span>
-                                <strong id="statMaxEle" class="fs-6">- m</strong>
+                                <strong class="fs-6 js-statmaxele">- m</strong>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4">
                                 <span class="text-secondary"><i class="bi bi-geo text-info me-2"></i> Altitudine Min</span>
-                                <strong id="statMinEle" class="fs-6">- m</strong>
+                                <strong class="fs-6 js-statminele">- m</strong>
                             </li>
                         </ul>
                     </div>
@@ -235,7 +235,7 @@
                         <h5 class="card-title fw-bold m-0 text-dark"><i class="bi bi-list-task text-primary me-2"></i> Punti di Interesse & Tappe</h5>
                     </div>
                     <div class="card-body p-3">
-                        <div id="route-poi-list" class="poi-list-container">
+                        <div class="poi-list-container js-routepoilist">
                             <!-- Generato dinamicamente via JS -->
                         </div>
                     </div>

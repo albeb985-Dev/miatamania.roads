@@ -212,11 +212,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
 
                 // Dati tecnici in sidebar
+                /*
                 document.getElementById('statDistance').innerText = totalDistance.toFixed(2) + ' km';
                 document.getElementById('statEleGain').innerText = hasElevationData ? '+' + Math.round(eleGain) + ' m' : 'N/D';
                 document.getElementById('statEleLoss').innerText = hasElevationData ? '-' + Math.round(eleLoss) + ' m' : 'N/D';
                 document.getElementById('statMaxEle').innerText = (hasElevationData && maxEle !== -Infinity) ? Math.round(maxEle) + ' m' : 'N/D';
                 document.getElementById('statMinEle').innerText = (hasElevationData && minEle !== Infinity) ? Math.round(minEle) + ' m' : 'N/D';
+                */
+                const updateTextContentByClass = (className, text) => {
+                    document.querySelectorAll(`.${className}`).forEach(el => {
+                        el.innerText = text;
+                    });
+                };
+
+                updateTextContentByClass('js-statdistance', totalDistance.toFixed(2) + ' km');
+                updateTextContentByClass('js-statelegain', hasElevationData ? '+' + Math.round(eleGain) + ' m' : 'N/D');
+                updateTextContentByClass('js-stateleloss', hasElevationData ? '-' + Math.round(eleLoss) + ' m' : 'N/D');
+                updateTextContentByClass('js-statmaxele', (hasElevationData && maxEle !== -Infinity) ? Math.round(maxEle) + ' m' : 'N/D');
+                updateTextContentByClass('js-statminele', (hasElevationData && minEle !== Infinity) ? Math.round(minEle) + ' m' : 'N/D');
 
                 // Renderizza il grafico o mostra un avviso se mancano i dati d'altitudine
                 if (hasElevationData) {
@@ -300,65 +313,60 @@ document.addEventListener('DOMContentLoaded', () => {
             return 0;
         });
 
-    const poiContainer = document.getElementById('route-poi-list');
-    if (poiContainer) poiContainer.innerHTML = '';
+    //const poiContainer = document.getElementById('route-poi-list');
+    //if (poiContainer) poiContainer.innerHTML = '';
 
     const poiNavigateBtn = document.getElementById('navigatebtnlist');
     if (poiNavigateBtn) poiNavigateBtn.innerHTML = '';
 
-    sortedPois.forEach((poi,index) => {
-        // 1. Aggiunge il marker sulla mappa
+    const poiContainers = document.querySelectorAll('.js-routepoilist');
+    poiContainers.forEach(container => container.innerHTML = '');
+
+    sortedPois.forEach((poi, index) => {
         const marker = createPoiMarker(poi).addTo(map);
 
-        // 2. Popola l'elemento nella lista in pagina (se presente)
-        if (poiContainer) {
-        const poiCard = document.createElement('div');
-        poiCard.className = 'poi-card-item';
-        poiCard.innerHTML = `
-            <div class="poi-card-header">
-            <span class="text-secondary"><i class="${GetPOIIcon(poi)}"></i> ${poi.category} ${poi.arrival_time? 'Ore ' + poi.arrival_time:''}</span>
-            <div>
-            <strong>${poi.name}</strong>
-            <small class="poi-city-label">${poi.address? poi.address + ',':''} ${poi.city}</small>
-            <small><a href="${poi.maps_url}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
-                        Mostra su Maps
-                    </a></small>
-            </div>
-            </div>
-        `;
+        poiContainers.forEach(container => {
+            const poiCard = document.createElement('div');
+            poiCard.className = 'poi-card-item';
+            poiCard.innerHTML = `
+                <div class="poi-card-header">
+                    <span class="text-secondary"><i class="${GetPOIIcon(poi)}"></i> ${poi.category} ${poi.arrival_time ? 'Ore ' + poi.arrival_time : ''}</span>
+                    <div>
+                        <strong>${poi.name}</strong>
+                        <small class="poi-city-label">${poi.address ? poi.address + ',' : ''} ${poi.city}</small>
+                        <small><a href="${poi.maps_url}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> Mostra su Maps</a></small>
+                    </div>
+                </div>
+            `;
 
-        // Cliccando sul POI in lista, la mappa si centra sul punto
-        poiCard.addEventListener('click', () => {
-            map.flyTo([poi.lat, poi.lng], 15);
-            marker.openPopup();
+            poiCard.addEventListener('click', () => {
+                map.flyTo([poi.lat, poi.lng], 15);
+                marker.openPopup();
+            });
+
+            container.appendChild(poiCard);
         });
 
-        poiContainer.appendChild(poiCard);
-        }
-
         // 3. Popola la lista dei bottoni per navigare i POI
-        if (poiContainer) {
-            if (index==0)
-            {
-                const firstdestination = document.getElementById('firstdestid');
-                firstdestination.innerHTML = `
-                            <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
-                                Vai a ${poi.category}
-                            </a>
-                `;
-            }
-            else
-            {
-                const poiBtn = document.createElement('li');
-                poiBtn.innerHTML = `
-                            <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
-                                Vai a ${poi.category}
-                            </a>
-                `;
+        if (index==0)
+        {
+            const firstdestination = document.getElementById('firstdestid');
+            firstdestination.innerHTML = `
+                        <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                            Vai a ${poi.category}
+                        </a>
+            `;
+        }
+        else
+        {
+            const poiBtn = document.createElement('li');
+            poiBtn.innerHTML = `
+                        <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                            Vai a ${poi.category}
+                        </a>
+            `;
 
-                poiNavigateBtn.appendChild(poiBtn);
-            }
-
+            poiNavigateBtn.appendChild(poiBtn);
         }
     });
     }
