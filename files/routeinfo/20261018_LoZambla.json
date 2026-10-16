@@ -8,8 +8,15 @@
     "year": 2026,
     "date": "2026-10-18",
     "gpx_file": "files/gpx/20261018_LoZambla.gpx",
-    "roadbook_file": "",
-    "maps_url": "",
+    "gpx_part":[
+        {"name": "Gpx - Mattino", "gpx_file": "files/gpx/20261018_LoZambla_Parte1.gpx"},
+        {"name": "Gpx - Pomeriggio", "gpx_file": "files/gpx/20261018_LoZambla_Parte2.gpx"}
+    ],
+    "maps_url": [
+        {"name": "Mattino - Parte 1", "maps_url":"https://maps.app.goo.gl/p8QhMs3LkxuDRz5e9"},
+        {"name": "Mattino - Parte 2", "maps_url":"https://maps.app.goo.gl/h5ZvPHEP1CebWUBR6"}
+    ],
+    "roadbook_file": "files/roadbook/LoZambla_RoadBook.pdf",
     "pois": [
         {
             "id": "Zambla_Inizio",
@@ -25,7 +32,7 @@
             "poi_file": "",
             "maps_url": "https://maps.app.goo.gl/p9NseFkF5PLaweYJ8",
             "arrival_time": "09:00",
-            "departure_time": "09:30"
+            "departure_time": "09:20"
         },
         {
             "id": "Zambla_Sosta",
@@ -55,7 +62,7 @@
             "poi_file": "",
             "maps_url": "https://maps.app.goo.gl/88FNz2ZPSrY3zmBS9",
             "website": "http://www.quattrocime.it/",
-            "arrival_time": "13:00 Circa"
+            "arrival_time": "12:30 Circa"
         },
         {
             "id": "Zambla_Dest",
