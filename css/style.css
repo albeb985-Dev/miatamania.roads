@@ -21,6 +21,10 @@
   letter-spacing: 0.03em;
 }
 
+.p-2 {
+    padding: .2rem !important;
+}
+
 /* CLASSE UNIFORME PER TUTTI I BOTTONI E IL LINK ROADBOOK */
 .uniform-action-btn {
   padding: 0.5rem 1rem !important;
@@ -225,7 +229,7 @@
   }
   
   .card-body {
-    padding: 0.75rem !important;
+    padding: 0.20rem !important;
   }
 
   /* Pulsanti di azione uniformi più compatti su mobile */
