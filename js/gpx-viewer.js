@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstdestination = document.getElementById('firstdestid');
             firstdestination.className = "btn btn-primary uniform-action-btn split-main-btn action-btn-mobile flex-grow-1 text-start text-lg-center";
             firstdestination.innerHTML = `
-                <i class="bi bi-sign-turn-right-fill fs-6 mb-1 mb-lg-0 me-lg-1"></i>
+                <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-sign-turn-right-fill me-1"></i> 
                 <span>Vai a ${poi.category}</span>
             `;
         }
