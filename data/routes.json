@@ -16,7 +16,8 @@
     "category": "Raduni",
     "country": "Italia",
     "region": "Lombardia",
-    "distance_km": 95.8,
-    "gpx_file": "files/gpx/20261018_LoZambla.gpx"
+    "distance_km": 139.30,
+    "gpx_file": "files/gpx/20261018_LoZambla.gpx",
+    "logo": "files/logos/LoZambla_Logo.jpg"
   }
 ]

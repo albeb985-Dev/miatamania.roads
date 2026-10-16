@@ -7,6 +7,7 @@
     "region": "Lombardia",
     "year": 2026,
     "date": "2026-10-18",
+    "logo": "files/logos/LoZambla_Logo.jpg",
     "gpx_file": "files/gpx/20261018_LoZambla.gpx",
     "gpx_part":[
         {"name": "Gpx - Mattino", "gpx_file": "files/gpx/20261018_LoZambla_Parte1.gpx"},

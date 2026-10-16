@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initRouteDetail(route) {
         document.getElementById('routeTitle').innerText = route.title || 'Percorso';
-        document.getElementById('routeDescription').innerText = route.description || '';
+        //document.getElementById('routeDescription').innerText = route.description || '';
+        document.getElementById('routelogo').src = route.logo;
         
         const badge = document.getElementById('routeBadge');
         badge.innerText = route.category || 'N/D';
@@ -350,18 +351,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. Popola la lista dei bottoni per navigare i POI
         if (index==0)
         {
+            /*
             const firstdestination = document.getElementById('firstdestid');
             firstdestination.innerHTML = `
                         <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
                             Vai a ${poi.category}
                         </a>
             `;
+            */
+            const firstdestination = document.getElementById('firstdestid');
+            firstdestination.className = "btn btn-primary uniform-action-btn split-main-btn action-btn-mobile flex-grow-1 text-start text-lg-center";
+            firstdestination.innerHTML = `
+                <i class="bi bi-sign-turn-right-fill fs-6 mb-1 mb-lg-0 me-lg-1"></i>
+                <span>Vai a ${poi.category}</span>
+            `;
         }
         else
         {
             const poiBtn = document.createElement('li');
             poiBtn.innerHTML = `
-                        <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-geo-alt-fill me-1"></i> 
+                        <a href="${ComposeGoogleMapsNavigationUrl(poi)}" target="_blank" class="dropdown-item"><i class="bi bi-sign-turn-right-fill me-1"></i> 
                             Vai a ${poi.category}
                         </a>
             `;

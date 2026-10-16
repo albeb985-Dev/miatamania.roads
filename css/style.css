@@ -55,7 +55,7 @@
   box-sizing: border-box !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-  margin-left: 1px;
+  margin-left: 1px !important;
 }
 
 /* Stile personalizzato per le Nav Pills su mobile */
@@ -95,6 +95,8 @@
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #cc0000;
   --bs-btn-hover-border-color: #cc0000;
+  --bs-btn-active-bg: #960404;
+  --bs-btn-active-border-color:#960404;
 }
 
 .btn-outline-primary {
@@ -208,4 +210,133 @@
   100% {
     left: 100%;
   }
+}
+
+/* Ottimizzazioni per dispositivi mobili / schermi piccoli */
+@media (max-width: 768px) {
+  /* Riduce le spaziature tra i blocchi principali della pagina */
+  main.container-fluid {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .card {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .card-body {
+    padding: 0.75rem !important;
+  }
+
+  /* Pulsanti di azione uniformi più compatti su mobile */
+  .uniform-action-btn, 
+  .uniform-action-btn-split {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Riduce l'altezza della mappa su mobile per evitare troppi scroll */
+  #map {
+    height: 350px !important;
+  }
+}
+
+/* Adattamento bottoni principali su mobile (icona sopra, testo sotto) */
+@media (max-width: 768px) {
+  .action-btn-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.4rem 0.2rem !important;
+    font-size: 0.7rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .action-btn-mobile i {
+    font-size: 1rem !important;
+    margin-bottom: 2px !important;
+    margin-right: 0 !important;
+  }
+
+  /* Gestione dello split button principale su mobile per evitare disallineamenti */
+  .btn-group .uniform-action-btn.action-btn-mobile {
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+  }
+}
+
+/* Forza i tre bottoni inferiori ad avere esattamente la stessa larghezza */
+.equal-buttons-container > * {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+}
+
+/* Ridimensionamento generale ottimizzato per PC (evita bottoni troppo massicci) */
+@media (min-width: 992px) {
+  .uniform-action-btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.825rem !important;
+  }
+}
+
+/* Limita la larghezza massima del sito a 1600px centrandolo sugli schermi molto larghi */
+@media (min-width: 1600px) {
+  body.d-flex {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05); /* Un leggero effetto staccato dal fondo bianco dello schermo */
+  }
+}
+/* Intestazione percorso e logo sempre affiancati */
+.route-header-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.route-logo-wrapper {
+  height: 38px; /* Altezza compatta su smartphone */
+  display: flex;
+  align-items: center;
+}
+
+.route-header-logo {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Regolazione dimensione titolo e altezza logo su schermi medi/grandi */
+@media (min-width: 768px) {
+  .route-logo-wrapper {
+    height: 50px;
+  }
+}
+
+/* Ripartizione proporzionale dello split button (es. 90% e 10%) */
+.split-proportional-group {
+  display: flex !important;
+}
+
+.split-proportional-group > #firstdestid {
+  flex: 0 0 85% !important;
+  width: 85% !important;
+}
+
+.split-proportional-group > .dropdown-toggle-split {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+/* Rimuove l'arrotondamento dei bordi a destra del bottone principale dello split button */
+.split-proportional-group > #firstdestid {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }

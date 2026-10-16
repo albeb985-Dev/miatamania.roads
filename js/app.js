@@ -48,7 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             </span>
                             <span class="text-muted small"><i class="bi bi-geo-alt text-primary me-1"></i> GPX</span>
                         </div>
-                        <h4 class="card-title fw-bold text-dark mb-2">${route.title}</h4>
+                        <div class="d-flex flex-row justify-content-between align-items-center gap-2 pb-2 route-header-container">
+                            <div class="overflow-hidden">
+                                <h4 class="h4 h3-lg fw-bold text-dark mb-0 text-truncate">${route.title}</h1>
+                            </div>
+                              <div class="route-logo-wrapper flex-shrink-0">
+                                <img id="routelogo" src="${route.logo}" alt="Logo Miatamania" class="route-header-logo rounded">
+                            </div>
+                        </div>
                         <p class="card-text text-muted small mb-4 flex-grow-1">${route.description}</p>
                         
                         <div class="p-3 bg-light rounded-3 d-flex justify-content-around text-center mb-3 border">
